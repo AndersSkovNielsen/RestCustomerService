@@ -65,6 +65,8 @@ namespace RestCustomerConsumer
             }
         }
 
+
+
         public static void InsertCustomer(Customer newC)
         {
             using (HttpClient client = new HttpClient())

@@ -36,6 +36,24 @@ namespace RestCustomerService.Controllers
             return cList[id-1];
         }
 
+        // GET: api/Customers/5
+        [HttpGet("{id}", Name = "Get")]
+        [Route("customers?year={id}")]
+        public IList<Customer> GetCustomerByYear([FromQuery] GetFilterData filter)
+        {
+            IList<Customer> newList = new List<Customer>();
+
+            foreach (var customer in cList)
+            {
+                if (customer.Year == filter.Year)
+                {
+                    newList.Add(customer);
+                }
+            }
+
+            return newList;
+        }
+
         // POST: api/Customers
         [HttpPost]
         [Route("new")]
