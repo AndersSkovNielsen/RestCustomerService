@@ -24,7 +24,14 @@ namespace RestCustomerService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin", builder => builder.WithOrigins("http://easj.dk"));
+
+                options.AddPolicy("AllowAnyOrigin", builder => builder.AllowAnyOrigin());
+
+                options.AddPolicy("AllowAnyOriginGetPost", builder => builder.AllowAnyOrigin().WithMethods("GET", "POST"));
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

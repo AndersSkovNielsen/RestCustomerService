@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 //Husk using til library reference, muligvis til folder
@@ -10,6 +11,7 @@ using ModelLibrary.Model;
 namespace RestCustomerService.Controllers
 {
     [Route("api/[controller]")]
+    //[EnableCors("AllowAnyOrigin")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
@@ -23,7 +25,7 @@ namespace RestCustomerService.Controllers
         // GET: api/Customers
         [HttpGet]
         [Route("all")]
-        public List<Customer> Get()
+        public List<Customer> GetAllCustomers()
         {
             return cList;
         }
@@ -31,14 +33,14 @@ namespace RestCustomerService.Controllers
         // GET: api/Customers/5
         [HttpGet("{id}", Name = "Get")]
         [Route("{id}")]
-        public Customer Get(int id)
+        public Customer GetCustomer(int id)
         {
             return cList[id-1];
         }
 
         // GET: api/Customers/5
-        [HttpGet("{id}", Name = "Get")]
-        [Route("customers?year={id}")]
+        [HttpGet]
+        [Route("customers")]
         public IList<Customer> GetCustomerByYear([FromQuery] GetFilterData filter)
         {
             IList<Customer> newList = new List<Customer>();
