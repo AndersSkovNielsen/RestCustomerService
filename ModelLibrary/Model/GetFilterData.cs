@@ -6,13 +6,7 @@ namespace ModelLibrary.Model
 {
     public class GetFilterData
     {
-        private int _year;
-
-        public int Year
-        {
-            get { return _year; }
-            set { _year = value; }
-        }
+        public int Year { get; set; }
 
         public GetFilterData()
         {
@@ -21,7 +15,7 @@ namespace ModelLibrary.Model
 
         public GetFilterData(int year)
         {
-            _year = year;
+            Year = year;
         }
 
         public override string ToString()

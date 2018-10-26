@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 //Husk using til library reference, muligvis til folder
 using ModelLibrary.Model;
+using DisableCorsAttribute = Microsoft.AspNetCore.Cors.DisableCorsAttribute;
+using EnableCorsAttribute = Microsoft.AspNetCore.Cors.EnableCorsAttribute;
 
 namespace RestCustomerService.Controllers
 {
     [Route("api/[controller]")]
-    //[EnableCors("AllowAnyOrigin")]
+    [EnableCors("AllowAnyOrigin")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
@@ -22,7 +25,7 @@ namespace RestCustomerService.Controllers
             new Customer(3, "Nathan", "Rourke", 2018)
         };
 
-        // GET: api/Customers
+        // GET: api/Customers/all
         [HttpGet]
         [Route("all")]
         public List<Customer> GetAllCustomers()
@@ -31,16 +34,15 @@ namespace RestCustomerService.Controllers
         }
 
         // GET: api/Customers/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet]
         [Route("{id}")]
         public Customer GetCustomer(int id)
         {
             return cList[id-1];
         }
 
-        // GET: api/Customers/5
+        // GET: api/Customers?year=[year]
         [HttpGet]
-        [Route("customers")]
         public IList<Customer> GetCustomerByYear([FromQuery] GetFilterData filter)
         {
             IList<Customer> newList = new List<Customer>();
@@ -56,25 +58,27 @@ namespace RestCustomerService.Controllers
             return newList;
         }
 
-        // POST: api/Customers
+        // POST: api/Customers/new
         [HttpPost]
         [Route("new")]
+        [EnableCors("AllowSpecificOrigin")]
         public void InsertCustomer(Customer c)
         {
             cList.Add(c);
         }
 
-        // PUT: api/Customers/5
-        [HttpPut("{id}")]
-        [Route("{id}")]
+        // PUT: api/Customers/update/5
+        [HttpPut]
+        [Route("update/{id}")]
         public void UpdateCustomer(int id, Customer  c)
         {
             cList[id - 1] = c;
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        [Route("{id}")]
+        // DELETE: api/Customers/delete/5
+        [HttpDelete]
+        [Route("delete/{id}")]
+        [DisableCors]
         public void DeleteCustomer(int id)
         {
             cList.Remove(cList[id-1]);
